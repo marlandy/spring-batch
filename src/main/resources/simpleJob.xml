@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:batch="http://www.springframework.org/schema/batch"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/batch
+http://www.springframework.org/schema/batch/spring-batch.xsd
+http://www.springframework.org/schema/util 
+http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <import resource="classpath:applicationContext.xml"/>
+
+    <!-- ====== JOB ====== -->
+    <batch:job id="processFileJob" job-repository="jobRepository">
+        <batch:step id="processFileStep1">
+            <batch:tasklet>
+                <batch:chunk reader="processFileItemReader"
+                             processor="elementProcessor"
+                             writer="processFileXMLWriter"
+                             commit-interval="2"/>
+            </batch:tasklet>
+        </batch:step>
+    </batch:job>
+
+    <!-- ====== READER ====== -->
+    <bean id="processFileItemReader"
+          class="org.springframework.batch.item.file.FlatFileItemReader">
+        <property name="resource" value="${input.file}"/>
+        <property name="lineMapper" ref="processFileLineMapper"/>
+    </bean>
+
+    <bean id="processFileLineMapper"
+          class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+        <property name="fieldSetMapper" ref="elementAutoFieldSetMapper"/>
+        <property name="lineTokenizer"
+                  ref="processFileLengthLineTokenizer"/>
+    </bean>
+
+    <bean id="elementAutoFieldSetMapper"
+          class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
+        <property name="prototypeBeanName" value="element"/>
+    </bean>
+
+    <bean id="element"
+          class="com.autentia.tutoriales.springbatch.jobs.fileProcessor.model.Element"
+          scope="prototype"/>
+
+    <bean id="processFileLengthLineTokenizer"
+          class="org.springframework.batch.item.file.transform.FixedLengthTokenizer">
+        <property name="names" value="id,text"/>
+        <property name="columns" value="1-2, 3-9"/>
+    </bean>
+
+
+    <!-- ====== WRITER ======== -->
+    <bean id="processFileXMLWriter" class="org.springframework.batch.item.xml.StaxEventItemWriter">
+        <property name="resource" value="${output.file}"/>
+        <property name="marshaller" ref="elementMarshaller"/>
+        <property name="rootTagName" value="elements"/>
+        <property name="overwriteOutput" value="true"/>
+    </bean>
+
+    <bean id="elementMarshaller"
+          class="org.springframework.oxm.xstream.XStreamMarshaller">
+        <property name="aliases">
+            <util:map id="aliases">
+                <entry key="anotherElement" value="com.autentia.tutoriales.springbatch.jobs.fileProcessor.model.AnotherElement"/>
+            </util:map>
+        </property>
+    </bean>
+
+    <!-- Para lanzarlo con maven: mvn exec:java -Dexec.mainClass=org.springframework.batch.core.launch.support.CommandLineJobRunner
+         -Dexec.args="simpleJob.xml idDelJob" -->
+</beans>
