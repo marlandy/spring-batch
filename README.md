@@ -1,8 +1,7 @@
-spring-batch training
-============
+# spring-batch training #
 
-To launch the process:
 
+## To launch the process: ##
 1. mvn clean package (generates .zip file)
 1. unzip .zip (target/ folder)
 1. set input/output files into conf/fileProcessor.properties
@@ -12,7 +11,7 @@ To launch the process:
 
 
 
-Folders:
-    * lib/: libraries that process depends
-    - conf/: properties
-    + sprinbatch-${version}.jar: process module
+## Folders ##
+* lib/: libraries that process depends
+* conf/: properties
+* sprinbatch-${version}.jar: process module
