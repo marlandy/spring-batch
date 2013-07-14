@@ -13,6 +13,6 @@ To launch the process:
 
 
 Folders:
-    lib/: libraries that process depends
-    conf/: properties
-    sprinbatch-${version}.jar: process module
+    * lib/: libraries that process depends
+    * conf/: properties
+    * sprinbatch-${version}.jar: process module
