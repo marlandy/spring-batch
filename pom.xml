@@ -53,27 +53,8 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
-            <!-- ====== anadimos las depencencias al directorio del que seran leidos por el modulo ====== -->
-            <!--
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.5.1</version>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/lib/</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            -->
-            <!--  ======= anadimos clase main y dependencias (classpath) al modulo ====== -->
+
+            <!--  ======= add mainclass and dependencies to .jar module ====== -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -94,35 +75,7 @@
                     </archive>
                 </configuration>
             </plugin>
-            <!-- Copiamos los ficheros de propiedades en el directorio conf/ -->
-            <!--
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>2.6</version>
-                <executions>
-                    <execution>
-                        <id>copy-resources</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${basedir}/target/conf</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>src/main/resources</directory>
-                                    <filtering>true</filtering>
-                                    <includes>
-                                        <include>**/*.properties</include>
-                                    </includes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            -->
-            <!-- Empaquetamos en un zip -->
+            <!-- zip assembly -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
