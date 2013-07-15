@@ -72,6 +72,6 @@ http://www.springframework.org/schema/util/spring-util.xsd">
         </property>
     </bean>
 
-    <!-- Para lanzarlo con maven: mvn exec:java -Dexec.mainClass=org.springframework.batch.core.launch.support.CommandLineJobRunner
-         -Dexec.args="simpleJob.xml idDelJob" -->
+    <!-- To launch the process (Maven support): mvn exec:java -Dexec.mainClass=org.springframework.batch.core.launch.support.CommandLineJobRunner
+         -Dexec.args="simpleJob.xml jobId" -->
 </beans>

@@ -62,6 +62,7 @@
                 <configuration>
                     <excludes>
                         <exclude>**/*.properties</exclude>
+                        <exclude>**/*.txt</exclude>
                     </excludes>
                     <archive>
                         <manifest>
